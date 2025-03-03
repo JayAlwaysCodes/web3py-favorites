@@ -2,3 +2,5 @@
 pyproject.toml
 uv.lock
 .venv
+guide.py
+__pycache__/
