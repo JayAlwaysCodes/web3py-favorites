@@ -4,3 +4,4 @@ uv.lock
 .venv
 guide.py
 __pycache__/
+.keystore.json

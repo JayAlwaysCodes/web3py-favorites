@@ -1,10 +1,13 @@
 from vyper import compile_code
 from web3 import Web3
-from guide import MY_ADDRESS, PRIVATE_KEY, RPC_URL
+from guide import MY_ADDRESS, RPC_URL
 import requests
+from encrypt_key import KEYSTORE_PATH
+import getpass
+from eth_account import Account
 
 MY_ADDRESS = MY_ADDRESS
-PRIVATE_KEY = PRIVATE_KEY
+
 
 def main():
     print("Let's read in the vyper code and deploy it!")
@@ -32,7 +35,8 @@ def main():
     print("Transaction: ", transaction)
    
     print("Signing the transaction...")
-    signed_transaction = w3.eth.account.sign_transaction(transaction, private_key=PRIVATE_KEY)
+    private_key = decrpty_key()
+    signed_transaction = w3.eth.account.sign_transaction(transaction, private_key=private_key)
     print("Signed Transaction: ", signed_transaction)
 
     print("Sending the transaction...")
@@ -46,6 +50,14 @@ def main():
     # Wait for the transaction receipt
     tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash, timeout=300)
     print(f"Done! Contract deployed to {tx_receipt.contractAddress}")
+
+def decrpty_key() -> str:
+    with open (KEYSTORE_PATH, "r") as fp:
+        encrypted_account = fp.read()
+        password = getpass.getpass("Enter your password: ")
+        key = Account.decrypt(encrypted_account,password)
+        print("Decrypted Key!")
+        return key
     
 
 if __name__ == "__main__":
