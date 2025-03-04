@@ -5,3 +5,4 @@ uv.lock
 guide.py
 __pycache__/
 .keystore.json
+recap.md
